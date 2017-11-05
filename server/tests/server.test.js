@@ -4,22 +4,17 @@ const {ObjectID} = require('mongodb');
 
 const {app} = require('./../server');
 const {Todo} = require('./../models/todos');
+const {todos, populateTodos, populateUsers} = require('./seed/seed');
 
-const todos = [{
-	_id: new ObjectID(),
-	text: 'First test todo'
-}, {
-	_id: new ObjectID(),
-	text: 'Second test todo'
-}]
 
-beforeEach((done)=> { // RESETS FOR EVERY REQUEST it()
-	// empty db before EVERY request
-	Todo.remove({}).then(() => {
-		return Todo.insertMany(todos);
-	}).then(() => done());
-
-});
+beforeEach(populateTodos);
+beforeEach(populateUsers);
+//(done)=> { // RESETS FOR EVERY REQUEST it()
+// 	// empty db before EVERY request
+// 	Todo.remove({}).then(() => {
+// 		return Todo.insertMany(todos);
+// 	}).then(() => done());
+// });
 
 describe('POST /todos', () => {
 	it('should create a new todo', (done) => {
@@ -105,7 +100,7 @@ describe('DELETE /todos/:id', () => {
 			.delete(`/todos/${hexId}`)
 			.expect(200)
 			.expect((res) => {
-				expect(res.boody.todo._id).toBe(hexId);
+				expect(res.body.todo._id).toBe(hexId);
 			})
 			.end((err, res) => {
 				if (err) {
