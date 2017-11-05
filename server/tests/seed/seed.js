@@ -30,7 +30,7 @@ const todos = [{
 }, {
 	_id: new ObjectID(),
 	text: 'Second test todo'
-}]
+}];
 
 // empty db before EVERY request
 const populateTodos = (done) => {
@@ -44,8 +44,8 @@ const populateUsers = (done) => {
 		var userOne = new User(users[0]).save();
 		var userTwo = new User(users[1]).save();
 		
-		return Promise.all([userOne, userTwo]);// where does this go?
+		return Promise.all([userOne, userTwo]);
 	}).then(() => done());
 };
 
-module.exports = {todos, populateTodos, populateUsers};
+module.exports = {todos, populateTodos, users, populateUsers};
