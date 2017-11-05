@@ -105,6 +105,27 @@ app.patch('/todos/:id', (req, res) => {
 	});
 });
 
+// POST /users
+app.post('/users', (req, res) => {
+	var body = _.pick(req.body, ['email', 'password']);// only take email and pass
+	var user = new User(body);//validators in here in mongoose.js
+
+	// model method (User) vs instance method (user)
+	// User.findByToken // custom model method, takes JWT token, find user, return user
+	
+	// instance method, adding token to user document and sending back to user
+	// user.generateAuthToken
+
+	user.save().then(()=>{
+		return user.generateAuthToken();
+		// res.send(user);
+	}).then((token) => {
+		res.header('x-auth', token).send(user);
+	}).catch((e) => {
+		res.status(400).send(e);
+	});
+});
+
 app.listen(port, () => {
 	console.log(`Started on port ${port}`);
 });
