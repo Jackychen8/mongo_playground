@@ -2,7 +2,8 @@ var mongoose = require('mongoose');
 
 // which promise libary are we going to use? originated from 3rd party libraries like bluebird
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost:27017/TodoApp');
+// use a real port or localhost
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/TodoApp');
 
 // mongoose values/types
 // mongoose validators
